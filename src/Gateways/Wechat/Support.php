@@ -68,6 +68,7 @@ class Support
         );
         $result = is_array($result) ? $result : self::fromXml($result);
 
+
         if ((!isset($result['return_code']) && !isset($result['return_code']))
             || (isset($result['return_code']) && $result['return_code'] != 'SUCCESS')
             || (isset($result['result_code']) && $result['result_code'] != 'SUCCESS')) {
@@ -79,7 +80,9 @@ class Support
             );
         }
 
-        if (strpos($endpoint, 'mmpaymkttransfers') !== false || self::generateSign($result, $key) === $result['sign']) {
+        $sign = isset($result['sign']) ? $result['sign'] : $result['sandbox_signkey'];
+
+        if (strpos($endpoint, 'mmpaymkttransfers') !== false || self::generateSign($result, $key) === $sign) {
             return new Collection($result);
         }
 
