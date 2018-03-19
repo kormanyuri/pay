@@ -68,7 +68,10 @@ class Support
         );
         $result = is_array($result) ? $result : self::fromXml($result);
 
-        if (!isset($result['return_code']) || $result['return_code'] != 'SUCCESS' || $result['result_code'] != 'SUCCESS') {
+        if ((!isset($result['return_code']) && !isset($result['return_code']))
+            || (isset($result['return_code']) && $result['return_code'] != 'SUCCESS')
+            || (isset($result['result_code']) && $result['result_code'] != 'SUCCESS')) {
+
             throw new GatewayException(
                 'Get Wechat API Error:'.$result['return_msg'].($result['err_code_des'] ?? ''),
                 20000,
