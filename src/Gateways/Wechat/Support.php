@@ -80,10 +80,8 @@ class Support
             );
         }
 
-
-        $sign = isset($result['sign']) ? $result['sign'] : $result['sandbox_signkey'];
-
-        if (strpos($endpoint, 'mmpaymkttransfers') !== false || self::generateSign($result, $key) === $sign) {
+        if ((isset($result['sign']) && (strpos($endpoint, 'mmpaymkttransfers') !== false  || self::generateSign($result, $key) === $result['sign']))
+            || isset($result['sandbox_signkey'])) {
             return new Collection($result);
         }
 
